@@ -1,4 +1,4 @@
-package com.jtk.kelompok12;
+package com.jtk.model;
 
 public class Notification {
 
