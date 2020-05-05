@@ -1,9 +1,15 @@
 package com.jtk.model;
 
 import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 
+@Document
 public class User {
+	@Id
 	private String id;
 	private String username;
 
