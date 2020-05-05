@@ -6,6 +6,12 @@ public class Notification {
 	private User from;
 	private String message;
 	private LocalDateTime time;
+	
+	public Notification(User sender, String message) {
+		this.from = sender;
+		this.message = message;
+		this.time = LocalDateTime.now();
+	}
 
 	public User getFrom() {
 		return from;
