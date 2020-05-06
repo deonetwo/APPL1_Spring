@@ -193,10 +193,10 @@ public class AppController {
     				System.out.println("Processing..");
     				searchUserQuery = new Query(Criteria.where("username").is(user));
 					User recipient = mongoOperation.findOne(searchUserQuery, User.class);
+					
+					aspects.mention(signedUser, recipient, message);
 					mongoOperation.updateFirst(searchUserQuery, Update.update("notifList", recipient.getNotifList()), User.class);
-    				
-    				//aspects.mention(signedUser, recipient, message);
-    				
+
     				System.out.println("Mention success\n");
         		break;
         		
