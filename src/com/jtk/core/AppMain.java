@@ -34,11 +34,11 @@ public class AppMain implements AppInterface{
     	System.out.println("Choose a number: ");
     }
 
-	public boolean userLogin(MongoOperations mongoOperation) {
+	public String userLogin(MongoOperations mongoOperation) {
+		String username;
 		frontMenu();
 		choice = in.nextInt();
 		in.nextLine();
-		String username;
 		switch(choice) {
 			case SIGN_IN:{
 				System.out.println("Username: ");
@@ -50,10 +50,10 @@ public class AppMain implements AppInterface{
 				//if user exist, perform app
 				if(mongoOperation.exists(searchUserQuery, User.class)) {
 					User signedUser = mongoOperation.findOne(searchUserQuery, User.class);
-					return true;
+					return username;
 				} else {
 					System.out.println("User doesn't exist.");
-					return false;
+					return null;
 				}
 			}
 			case SIGN_UP:{
@@ -78,12 +78,7 @@ public class AppMain implements AppInterface{
 				System.out.println("Please enter the right number.\n");
 			break;
 		}
-		return false;
-	}
-
-	public void run() {
-		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	public int userMainMenu() {
@@ -93,24 +88,28 @@ public class AppMain implements AppInterface{
 		return choice;
 	}
 
-	public void userAddFriend() {
-		// TODO Auto-generated method stub
-		System.out.println("Adding Friends.");
-	}
-
-	public void userNotification() {
+	public void userNotification(MongoOperations mongoOperation) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void userFriends() {
+	public void userFriends(MongoOperations mongoOperation) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void userMentioned() {
+	public void userMentioned(MongoOperations mongoOperation) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void userAddFriend(MongoOperations mongoOperation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String userLogout() {
+		return null;
 	}
 
 }
