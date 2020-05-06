@@ -2,6 +2,9 @@ package com.jtk.model;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "notifications")
 public class Notification {
 	private User from;
 	private String message;

@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 import java.util.ArrayList;
 
+@Aspect
 @Document(collection = "users")
 public class User {
 	@Id
@@ -56,16 +57,5 @@ public class User {
 
 	public void setNotifList(List<Notification> notifList) {
 		this.notifList = notifList;
-	}
-	
-	public void mention(User sender, User recipient, String message) { }
-	
-	@AfterReturning("mention(sender, recipient, message)")
-	public void sendNotification(User sender, User recipient, String message) {
-		Notification notif = new Notification(sender, message);
-		List<Notification> notificationList = recipient.getNotifList();
-		notificationList.add(notif);
-		recipient.setNotifList(notificationList);
-		System.out.println("Notification to: " + recipient.username + " sent");
 	}
 }
