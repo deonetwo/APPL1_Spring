@@ -9,7 +9,6 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 
 @Configuration
-@EnableMongoRepositories(basePackages = "orders.db")
 public class MongoConfig extends AbstractMongoConfiguration {
 	@Override
 	protected String getDatabaseName() {

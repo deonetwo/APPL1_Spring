@@ -16,6 +16,7 @@ public class User {
 	@Id
 	private String id;
 	private String username;
+	private Integer newNotif;
 
 	private List<User> friendList;
 	private List<Notification> notifList;
@@ -57,5 +58,13 @@ public class User {
 
 	public void setNotifList(List<Notification> notifList) {
 		this.notifList = notifList;
+	}
+
+	public Integer getNewNotif() {
+		return newNotif;
+	}
+
+	public void setNewNotif(Integer newNotif) {
+		this.newNotif = newNotif;
 	}
 }

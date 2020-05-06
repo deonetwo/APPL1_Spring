@@ -7,6 +7,7 @@ import java.util.Scanner;
 import org.bson.types.ObjectId;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -34,6 +35,9 @@ public class AppController {
 	// For Annotation
 	static ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
 	static MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+	
+	ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("file:src/resources/beans.xml");
+	//static MongoOperations user = (MongoOperations) context.getBean("mongoTemplate", MongoConfig.class);
     
     public static void frontMenu() {
     	System.out.println("[ H E L L O ! ]");
