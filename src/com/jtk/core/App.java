@@ -24,32 +24,31 @@ public class App {
 		ApplicationContext context = new ClassPathXmlApplicationContext("resources/beans.xml");
 		AppInterface app = (AppInterface) context.getBean("app");
 
-		boolean userLogged;
+		User userLogged;
 		
 		while (true) {
 			userLogged = app.userLogin(mongoOperation);
 			
-			while (userLogged) {
-				switch (app.userMainMenu()) {
+			while (userLogged != null) {
+				switch (app.userMainMenu(userLogged.getNewNotif())) {
 					case ADD_FRIEND:
-						app.userAddFriend(mongoOperation);
+						app.userAddFriend(mongoOperation, userLogged);
 					break;
 						
 					case VIEW_FRIEND:
-						app.userFriends();
+						app.userFriends(userLogged);
 					break;
 						
 					case VIEW_NOTIF:
-						app.userNotification();
+						app.userNotification(userLogged);
 					break;
 						
 					case MENTION:
-						app.userMentioned(mongoOperation);
+						app.userMentioned(mongoOperation, userLogged);
 					break;
 						
 					case SIGN_OUT:
-						app.signOut();
-						userLogged = false;
+						userLogged = app.signOut();
 					break;
 					
 					default:

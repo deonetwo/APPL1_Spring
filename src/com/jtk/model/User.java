@@ -24,6 +24,7 @@ public class User {
 	public User(String id, String username) {
 		this.id = id;
 		this.username = username;
+		this.newNotif = 0;
 		this.friendList = new ArrayList<>();
 		this.notifList = new ArrayList<>();
 	}
@@ -64,7 +65,11 @@ public class User {
 		return newNotif;
 	}
 
-	public void setNewNotif(Integer newNotif) {
+	public void setNewNotif(int newNotif) {
 		this.newNotif = newNotif;
+	}
+	
+	public void addNewNotif() {
+		this.newNotif = newNotif + 1;
 	}
 }

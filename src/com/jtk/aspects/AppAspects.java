@@ -17,13 +17,22 @@ import com.jtk.model.User;
 
 @Aspect
 public class AppAspects {
-	
+
 	private Log log = LogFactory.getLog(this.getClass());
-	
+
 	@Before("execution(* *.*(..))")
-    public void runBefore(JoinPoint joinPoint) {
-        log.info("Method " + joinPoint.getSignature().getName() + " () telah dijalankan");
-    }
+	public void runBefore(JoinPoint joinPoint) {
+		log.info("Method " + joinPoint.getSignature().getName() + " () telah dijalankan");
+	}
+
+	@Pointcut("execution(** com.jtk.core.AppMain.userMainMenu(int))" + "&& args(notif)")
+	public void showNotification(int notif) {
+	}
+
+	@Before("showNotification(notif)")
+	public void notifShow(int notif) {
+		System.out.println("You have " + notif + " new notification!");
+	}
 
 	@After("execution(* com.jtk.core.AppMain.userMentioned(..))")
 	public void stateAfter(JoinPoint joinPoint) {

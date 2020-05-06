@@ -20,7 +20,6 @@ public class AppMain implements AppInterface {
 
 	int choice;
 	Scanner in = new Scanner(System.in);
-	User signedUser;
 
 	public void frontMenu() {
     	System.out.println("*** Hello!App ***");
@@ -40,11 +39,12 @@ public class AppMain implements AppInterface {
 	}
 	
 	
-	public boolean userLogin(MongoOperations mongoOperation) {
+	public User userLogin(MongoOperations mongoOperation) {
 		frontMenu();
 		choice = in.nextInt();
 		in.nextLine();
 		String username;
+		User signedUser;
 		
 		switch(choice) {
 			case SIGN_IN:
@@ -59,11 +59,10 @@ public class AppMain implements AppInterface {
 				//if user exist, perform app
 				if(mongoOperation.exists(searchUserQuery, User.class)) {
 					signedUser = mongoOperation.findOne(searchUserQuery, User.class);
-					System.out.println("\nSigned in as: [" + signedUser.getUsername() + "]\n");
-					return true;
+					return signedUser;
 				} else {
 					System.out.println("User doesn't exist.");
-					return false;
+					return null;
 				}
 			}
 			
@@ -93,10 +92,10 @@ public class AppMain implements AppInterface {
 			break;
 		}
 		
-		return false;
+		return null;
 	}
 	
-	public int userMainMenu() {
+	public int userMainMenu(int newNotif) {
 		displayMenu();
 		choice = in.nextInt();
 		in.nextLine();
@@ -104,7 +103,7 @@ public class AppMain implements AppInterface {
 	}
 
 	@Override
-	public void userAddFriend(MongoOperations mongoOperation) {
+	public void userAddFriend(MongoOperations mongoOperation, User signedUser) {
 		System.out.println("\n*** Add Friend ***\n");
 		System.out.println("Username: ");
 		String username = in.nextLine();
@@ -131,7 +130,7 @@ public class AppMain implements AppInterface {
 	}
 	
 	@Override
-	public void userNotification() {
+	public void userNotification(User signedUser) {
 		System.out.println("\n*** Notifications ***\n");
 		List<Notification> notifList = signedUser.getNotifList();
 		Iterator<Notification> nListIter = notifList.iterator();
@@ -142,12 +141,12 @@ public class AppMain implements AppInterface {
 									current.getFrom().getUsername() + ": " +
 									current.getMessage());
 		}
-		
+		signedUser.setNewNotif(0);
 		System.out.println("");
 	}
 	
 	@Override
-	public void userFriends() {
+	public void userFriends(User signedUser) {
 		System.out.println("\n*** My Friend List ***\n");
 		List<User> friendList = signedUser.getFriendList();
 		Iterator<User> fListIter = friendList.iterator();
@@ -159,17 +158,19 @@ public class AppMain implements AppInterface {
 		System.out.println("");
 	}
 	
-	public void sendNotif(User recipient, String message, MongoOperations mongoOperation) {
+	public void sendNotif(User recipient, String message, MongoOperations mongoOperation, User signedUser) {
 		Notification notif = new Notification(signedUser, "@" + recipient.getUsername() + " " + message);
 		List<Notification> notificationList = recipient.getNotifList();
 		notificationList.add(notif);
 		recipient.setNotifList(notificationList);
+		int newNotif = recipient.getNewNotif() + 1;
 		
 		Query searchUserQuery = new Query(Criteria.where("username").is(recipient.getUsername()));
 		mongoOperation.updateFirst(searchUserQuery, Update.update("notifList", notificationList), User.class);
+		mongoOperation.updateFirst(searchUserQuery, Update.update("newNotif", newNotif), User.class);
 	}
 
-	public void userMentioned(MongoOperations mongoOperation) {
+	public void userMentioned(MongoOperations mongoOperation, User signedUser) {
 		System.out.println("\n*** Mention ***\n");
 		Scanner in = new Scanner(System.in);
 		System.out.println("To: ");
@@ -180,12 +181,16 @@ public class AppMain implements AppInterface {
 		System.out.println("Processing..");
 		Query searchUserQuery = new Query(Criteria.where("username").is(user));
 		User recipient = mongoOperation.findOne(searchUserQuery, User.class);
-		
-		sendNotif(recipient, message, mongoOperation);
+		if(recipient != null) {
+			sendNotif(recipient, message, mongoOperation, signedUser);
+		}
+		else {
+			System.out.println("Mention failed. User not found.");
+		}
 	}
 	
-	public void signOut() {
+	public User signOut() {
 		System.out.println("\nSigning out..\n");
-		signedUser = null;
+		return null;
 	}
 }
