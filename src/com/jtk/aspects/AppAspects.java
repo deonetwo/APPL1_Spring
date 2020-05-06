@@ -17,4 +17,6 @@ public class AppAspects {
     public void runBefore(JoinPoint joinPoint) {
         log.info("Method " + joinPoint.getSignature().getName() + " () telah dijalankan");
     }
+	
+	
 }
