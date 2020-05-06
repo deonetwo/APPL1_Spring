@@ -7,7 +7,7 @@ public class App {
 	
     public static void main(String[] args) {
     	ApplicationContext context = new ClassPathXmlApplicationContext("resources/beans.xml");
-        AppMain app = (AppMain) context.getBean("appRun");
+    	AppInterface app = (AppInterface) context.getBean("app");
         
         app.userNotLogin();
     }
