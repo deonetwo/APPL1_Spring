@@ -56,7 +56,7 @@ public class AppController {
     	System.out.println("Choose a number: ");
     }
 
-    public static void run() {
+    public void run() {
     	String username;
     	int choice;
     	Scanner in = new Scanner(System.in);
@@ -109,7 +109,7 @@ public class AppController {
     	}
     }
     
-    public static void perform() {
+    public void perform() {
     	String username;
     	boolean exit = false;
     	
@@ -195,7 +195,7 @@ public class AppController {
 					User recipient = mongoOperation.findOne(searchUserQuery, User.class);
 					mongoOperation.updateFirst(searchUserQuery, Update.update("notifList", recipient.getNotifList()), User.class);
     				
-    				aspects.mention(signedUser, recipient, message);
+    				//aspects.mention(signedUser, recipient, message);
     				
     				System.out.println("Mention success\n");
         		break;
