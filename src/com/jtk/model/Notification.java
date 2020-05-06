@@ -6,22 +6,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "notifications")
 public class Notification {
-	private User from;
+	private User sender;
 	private String message;
 	private LocalDateTime time;
 	
 	public Notification(User sender, String message) {
-		this.from = sender;
+		this.sender = sender;
 		this.message = message;
 		this.time = LocalDateTime.now();
 	}
 
 	public User getFrom() {
-		return from;
+		return sender;
 	}
 
 	public void setFrom(User from) {
-		this.from = from;
+		this.sender = from;
 	}
 
 	public String getMessage() {
