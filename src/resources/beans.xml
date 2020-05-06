@@ -1,1 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:aop = "http://www.springframework.org/schema/aop"
+   xmlns:context = "http://www.springframework.org/schema/acontext"
+   xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+   		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-context-2.5.xsd
+   		http://www.springframework.org/schema/data/mongo
+        http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
+        
+<aop:aspectj-autoproxy />
+
+<bean id = "user1" class = "com.jtk.model.User">
+        <property name = "id" value = "099"/>
+        <property name = "username" value = "lolol"/>
+   </bean>
+
+<bean name="appController" class="com.jtk.core.AppController" autowire="byName"/>
+
+<bean name="appAspects" class="com.jtk.aspects.AppAspects"/>
+
+</beans>
